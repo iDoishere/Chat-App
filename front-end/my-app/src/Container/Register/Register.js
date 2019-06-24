@@ -4,7 +4,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } 
 
  class Register extends Component {
   name = React.createRef();
-  email = React.createRef();
+ 
   pass = React.createRef();
   rePass = React.createRef();
     render() {
@@ -30,16 +30,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } 
                     error="wrong"
                     success="right"
                   />
-                  <MDBInput
-                    ref={this.email}
-                    label="Your email"
-                    icon="envelope"
-                    group
-                    type="email"
-                    validate
-                    error="wrong"
-                    success="right"
-                  />
+           
                   <MDBInput
                          ref={this.pass}
                     label="Confirm your pass"
@@ -63,10 +54,10 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } 
                 <MDBBtn onClick={ ()=> {
                 
                 let name = this.name.current.state.innerValue;
-                let email =this.email.current.state.innerValue;
+             
                 let pass = this.pass.current.state.innerValue;
                 let rePass =this.rePass.current.state.innerValue;
-                const obj = {name :name,email:email,pass:pass,rePass:rePass}
+                const obj = {name :name ,pass:pass,rePass:rePass}
                 clickedRegister(obj)}}
                   type="button"
                   gradient="blue"

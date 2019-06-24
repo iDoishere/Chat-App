@@ -36,7 +36,9 @@ io.on("connection", async function (socket) {
     console.log(data)
   //  const result = await myServiceSocket.insertOne(data, 'msg')
    
-      socket.emit('output',data)  
+      // socket.broadcast.emit('output',data)  
+
+      io.sockets.emit('output', data);
     });
 });
 

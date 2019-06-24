@@ -18,7 +18,7 @@ import { PostDataToMongo, getDataFromMongo } from '../../Container/MainApp/PostD
 const endpoint = 'http://localhost:3001';
 class Chat extends Component {
 
-  serverUrl = "http://localhost:3000";
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -70,10 +70,13 @@ class Chat extends Component {
 
 
   render() {
+    const {
+      name
+    } = this.props;
     return (
       <div>
-    
-        {/* <ShowText   allMassges={this.state.datafromMongo} /> */}
+      <h1>{name}</h1>
+        <ShowText   allMassges={this.state.datafromMongo} />  
         <Input clicked={ this.sendMessage}
           handleChange={this.handleChange}
         />

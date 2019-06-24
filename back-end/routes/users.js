@@ -12,8 +12,8 @@ router.use(async(req,res,next)=> {
   next()
 })
 
-function  authorizer (email, password) { 
-  return  currentUsers.some(user => user.email === email && user.pass === md5(password))   
+function  authorizer (name, password) { 
+  return  currentUsers.some(user => user.name === name && user.pass === md5(password))   
 }
 
 router.post('/login',  basicAuth({ authorizer}) , function (req, res, next) { 
@@ -28,12 +28,12 @@ router.post('/register',async function(req, res, next) {
     res.send({"auth":false,info:'missing text or pass incorrect'}) 
     return;   // to avoid res handle eroor
  }
- if(!validateEmail(currentObj.email)){
-   res.send({"auth":false ,info:'Check your email'}) 
-   return;
- }  
+//  if(!validateEmail(currentObj.email)){
+//    res.send({"auth":false ,info:'Check your email'}) 
+//    return;
+//  }  
  if(checkUserExits(currentUsers,currentObj)){
-   res.send({"auth":false,info:'email exits'}) 
+   res.send({"auth":false,info:'user exits'}) 
    return;
  }
  else{
@@ -47,7 +47,7 @@ router.post('/register',async function(req, res, next) {
 function checkUserExits(currentUsers,currentObj){
   let ifTrue=false;
  for (let user of currentUsers) { 
- if(user.email != currentObj.email){
+ if(user.name != currentObj.name){
    ifTrue = false;
   }  else{
    ifTrue = true;
@@ -56,7 +56,7 @@ function checkUserExits(currentUsers,currentObj){
  return ifTrue;
 }
 function checkMissingText(currentObj){
- if(currentObj.name === '' ||currentObj.email === '' ||currentObj.pass === '' ||currentObj.rePass === '' ){
+ if(currentObj.name === '' ||currentObj.pass === '' ||currentObj.rePass === '' ){
    return false;
 }
 if(currentObj.pass.length < 8  || currentObj.rePass.length < 8){

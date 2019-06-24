@@ -10,7 +10,9 @@ function ShowText({allMassges,getData1sec}) {
               allMassges.map((msg,index)=>{
                  
                   return (
-                    <SingleText  msg={msg.text}  />
+                    <SingleText  msg={msg.text} 
+                    key={index}
+                    />
                   )
                
               })

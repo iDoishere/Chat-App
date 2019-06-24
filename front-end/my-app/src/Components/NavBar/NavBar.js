@@ -29,10 +29,15 @@ class NavBar extends Component {
     render() {
       const {
         clickedRegister
+        ,ifUserLoggedIn
+        ,userLoggedOut
       } = this.props;
+
+
+      const linkName =  ifUserLoggedIn ? "Logout" : "Login";
         return (
             <div>
-                 <Router>
+                 
                 <Navbar color="light" light expand="md">
              <NavbarBrand  >  <p className="a11">Chat App</p>
              </NavbarBrand>
@@ -42,7 +47,7 @@ class NavBar extends Component {
                  <div className="all">
                    <div className="item1">
                      <NavItem>
-                     <Link to="/Login/">Login</Link>
+                     <Link to="/" onClick = {userLoggedOut}>{linkName}</Link>
                      </NavItem>
                    </div>
                    <div className="item2">
@@ -66,15 +71,15 @@ class NavBar extends Component {
                </Nav>
              </Collapse>
            </Navbar>
-           
-           <Route exact path='/Register/' render={() => {
+           {/* <Route path="/Login/"  exact component={Login} />     
+         <Route path="/Register/"  exact component={Register} />    */}
+           {/* <Route exact path='/Register/' render={() => {
               return (           
                       <div>
                         <Register   clickedRegister={clickedRegister}/>
                       </div>
-                        )}}/>   
-               <Route path="/Login/"  exact component={Login} />  
-           </Router>
+                        )}}/>     */}
+           
             </div>
         )
     }

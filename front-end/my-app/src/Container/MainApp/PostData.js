@@ -17,7 +17,7 @@ return   fetch(url , {
 
 export async function getDataFromMongo(user,url){
  
-  
+
   const auth = `Basic ${ btoa(`${user.email}:${user.password}`)}`;
 
   fetch(url, {

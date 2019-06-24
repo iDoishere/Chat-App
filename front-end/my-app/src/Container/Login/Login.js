@@ -11,25 +11,26 @@ class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          email:"",
+        
           password:"",
+          name:"",
           ifUserLoggedIn:false
        
         };
       }
 
-        getEmail = (event)  => {
-        this.setState({email:event.target.value})
-        }
-         
          getPass = (event)  => {
             this.setState({password:event.target.value})
          }
-
+         getName = (event)  => {
+          this.setState({name:event.target.value})
+       }
     render() {
         const {
           loginUser
         } = this.props ; 
+
+        
         return (  
             <MDBContainer>
             <MDBRow>
@@ -37,11 +38,11 @@ class Login extends Component {
                 <form>
                   <p className="h5 text-center mb-4">Sign in</p>
                   <div className="grey-text">
-                    <MDBInput   onChange = {this.getEmail}
-                      label="Type your email"
+                  <MDBInput   onChange = {this.getName}
+                      label="Type your name"
                       icon="envelope"
                       group
-                      type="email"
+                      type="text"
                       validate
                       error="wrong"
                       success="right"
@@ -56,9 +57,13 @@ class Login extends Component {
                   </div>
                   <div className="text-center">
                     <MDBBtn   onClick = {() => {
-                     const email = this.state.email;
+
+                      const name = this.state.name;
+                 
                      const password = this.state.password;
-                      const User = {email:email,password:password}              
+
+
+                      const User = {password:password,name:name}              
                          loginUser(User)}}>Login</MDBBtn>
                   </div>
                 </form>
