@@ -1,7 +1,7 @@
  
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Redirect,Switch,Link  } from "react-router-dom";
- 
+ import './NavBar.css'
 
 import {
     Collapse,

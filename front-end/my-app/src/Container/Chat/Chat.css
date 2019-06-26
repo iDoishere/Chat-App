@@ -1,0 +1,10 @@
+.userTitle{
+    display: flex;
+   margin-left: 3vh;
+}
+ 
+ .nameList{
+     color: cadetblue;;
+     
+     list-style-type: none;
+ }

@@ -5,19 +5,25 @@ import Input from '../../Components/Input/Input'
 import socketIOClient from 'socket.io-client';
 import { MSG } from '../../Events'
 import { Chat } from '@progress/kendo-react-conversational-ui';
+import "./Chat.css"
+import { Container, Row, Col } from 'reactstrap';
 
-import { ChatFeed, Message } from 'react-chat-ui'
 let i =0;
 const endpoint = 'http://localhost:3001';
 class Chat1 extends Component {
-
+ 
+ 
+  
   constructor(props) {
     super(props);
     this.state = {
        text:'',
         messages: [],    
+        userName: localStorage.getItem("userdetails"),
+        onlineUsers:[]
+
     };
-    this.name = props.name;
+    this.name = props.name;  // for chat 
      const id = Math.random().toString().split('.')[1];
      this.user = {  id: id, name:this.name};
 }
@@ -25,6 +31,11 @@ class Chat1 extends Component {
   componentDidMount = async(props) => {
    this.initSocket(props);
    const socket = socketIOClient(endpoint);
+  
+
+   socket     
+   .emit('setToSocketOnLiNE', {user: this.state.userName})
+
   //  socket.on("allmsg", data => {
   //   this.setState({datafromMongo:data})
  
@@ -33,11 +44,13 @@ class Chat1 extends Component {
   //  this.setState({ datafromMongo: CurrentMsg })
   }
 
+  // when user join to chat
+
   initSocket = async (props) => { 
  
     const socket = socketIOClient(endpoint);
     this.setState({ socket: socket  })
-    let i = 0;
+
     socket.on("output", data => {   // listen to socket message
       console.log(data)
           const arr = [...this.state.messages];
@@ -50,16 +63,24 @@ class Chat1 extends Component {
           arr.push(Message)
           this.setState({messages:arr})
     });
+
+
+    socket
+    .on('onlineConnect', onlineUsersFromSoCKET => {
+        this.setState({onlineUsers: onlineUsersFromSoCKET});
+    });
+ 
+ 
   }
 
   addNewMessage = (event) => {
         
     let botResponce = Object.assign({}, event.message);
     botResponce.author = this.user
-     this.sendMessageToSocket(botResponce)
+    this.sendMessageToSocket(botResponce)
 };
 
-  
+
 sendMessageToSocket = (text) => {
 
     this.state.socket
@@ -69,30 +90,50 @@ sendMessageToSocket = (text) => {
   }
 
   render() {
-
+   
+    const mapped = this.state.onlineUsers.map((user,index) => {
+      console.log(this.state.onlineUsers)
+       return (
+         <div>    
+         <li className="nameList"  key={index}>
+           <h4>{user.username}</h4>  
+         </li>
+         </div>
+   
+       )
+    })
     const {
       name
     } = this.props;
-
+ 
     return (
       <div>
-      <h1>{name}</h1>
-        {/* <ShowText   allMassges={this.state.messages} />   */}
-        {/* <Input clicked={ this.sendMessage}
-         
-        /> */}
- 
-   
-               <Chat  
-                
-                    messages={this.state.messages}
-                    
+        <div>
+        <Row>
+          <Col sm={{ size: 'auto', offset: 1 }}>
+          <div>
+            <h3>Online Users:</h3>
+           </div>
+           <div  >
+             <ul  >
+             {mapped} 
+             </ul>
+           </div>        
+          </Col>
+          <Col sm={{ size: 'auto', offset: 1 }}>        
+          <Chat  
+                    messages={this.state.messages}      
                     onMessageSend={this.addNewMessage}
                     placeholder={"Type a message..."}
-                    width={1000}>
+                    width={600}>
                       
                 </Chat>
-
+          </Col>
+        </Row>
+        {/* <ShowText   allMassges={this.state.messages} />   */}
+        {/* <Input clicked={ this.sendMessage}    
+        /> */}       
+        </div>
       {/* <ShowText  messages = {this.state.messages}/> */}
       </div>
     )

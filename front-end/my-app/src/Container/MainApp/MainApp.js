@@ -26,10 +26,16 @@ class MainApp extends Component {
     super(props)
     this.state = {
       ifUserLoggedIn:false,
-      name:''   
+      name:null 
     };
   }
+  setDatainLocalStorage(name) {
+        
+    console.log(name)
+    localStorage.setItem('userdetails', name);
 
+
+} 
   loginUser = async (user) => {
      const url = this.serverUrl + "/users/login";
      const auth = `Basic ${ btoa(`${user.name}:${user.password}`)}`;
@@ -41,6 +47,7 @@ class MainApp extends Component {
    }).then(res => res.json())
        .then(res => {
            if (res.autorized) {
+            this.setDatainLocalStorage(user.name);
              this.setState({ifUserLoggedIn: !this.state.ifUserLoggedIn,name:user.name})
            }
        })
