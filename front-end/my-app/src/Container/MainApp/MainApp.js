@@ -26,14 +26,11 @@ class MainApp extends Component {
     super(props)
     this.state = {
       ifUserLoggedIn:false,
-      name:''
-      
+      name:''   
     };
-    // this.handleChange = this.handleChange.bind(this);
   }
 
   loginUser = async (user) => {
-   console.log(user)
      const url = this.serverUrl + "/users/login";
      const auth = `Basic ${ btoa(`${user.name}:${user.password}`)}`;
      fetch(url, {
@@ -47,10 +44,7 @@ class MainApp extends Component {
              this.setState({ifUserLoggedIn: !this.state.ifUserLoggedIn,name:user.name})
            }
        })
-       .catch(err => console.log('No Authrization'));
-   
-    
-     
+       .catch(err => console.log('No Authrization')); 
     }
     clickedRegister = async (obj) => {
       const url = this.serverUrl + "/users/register";
@@ -60,61 +54,18 @@ class MainApp extends Component {
     userLoggedOut = ()=>{
       this.setState({ifUserLoggedIn:false});
     }
-  //   componentDidMount = async () => {
-  //   const CurrentMsg = await getDataFromMongo(this.serverUrl + "/messages");
-  //   this.setState({ datafromMongo: CurrentMsg })
-  // }
-    // handleChange(event) {
-    //   this.setState({ text: event.target.value });
-    // }
-
-    // clicked = async () => {
-    //   const data = this.state.text;
-    //   let mainInfo = { data }
-    //   const url = this.serverUrl + "/messages";
-    //   const CurrentServers = await PostDataToMongo(mainInfo, url);
-
-      
-    // }
-
-    // loginUser = async (user) => {
-    //   const url = this.serverUrl + "/users";
-    //   const CurrentServers = await PostDataToMongo(user, url);
-    // }
-   
-
- 
-
     render() {
-     
-     
       return (
         <div>
     <Router>
-      <NavBar ifUserLoggedIn={this.state.ifUserLoggedIn} userLoggedOut={this.userLoggedOut} />
-           
-           {/* <Route exact path='/Register/' render={() => {
-              return (           
-                      <div>
-                        <Register   clickedRegister={clickedRegister}/>
-                      </div>
-                        )}}/>     */}
-                            <Route path="/Register/" exact render={(props) => <Register 
-                             clickedRegister={this.clickedRegister} 
-                             />}
-                              />   
-          
- 
-          <Route path="/Chat/" exact render={(props) => <Chat name={this.state.name}
-          
-          
-          />} />   
-            
+          <NavBar ifUserLoggedIn={this.state.ifUserLoggedIn} userLoggedOut={this.userLoggedOut} />   
+          <Route path="/Register/" exact render={() => <Register 
+            clickedRegister={this.clickedRegister}/>}/>  
+          <Route path="/Chat/" exact render={() => <Chat name={this.state.name}/>}/>      
           <Route path="/" exact render={() => (
             this.state.ifUserLoggedIn ? (<Redirect to='/Chat/' />) :
               (<Login loginUser={this.loginUser}   />)
-          )} />
-             
+          )} />       
           </Router>
         </div>
       )

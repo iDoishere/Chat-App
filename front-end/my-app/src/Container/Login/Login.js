@@ -10,8 +10,7 @@ class Login extends Component {
   serverUrl   = 'http://localhost:3000';
     constructor(props) {
         super(props)
-        this.state = {
-        
+        this.state = {     
           password:"",
           name:"",
           ifUserLoggedIn:false
@@ -24,19 +23,21 @@ class Login extends Component {
          }
          getName = (event)  => {
           this.setState({name:event.target.value})
-       }
+          }
+
+
     render() {
         const {
           loginUser
-        } = this.props ; 
-
-        
+        } = this.props ;       
         return (  
-            <MDBContainer>
-            <MDBRow>
+          <div  >
+
+      <MDBContainer >
+            <MDBRow className="divLogin">
               <MDBCol md="6">
-                <form>
-                  <p className="h5 text-center mb-4">Sign in</p>
+                <form  > 
+                  <h2>Sign in</h2>
                   <div className="grey-text">
                   <MDBInput   onChange = {this.getName}
                       label="Type your name"
@@ -57,12 +58,8 @@ class Login extends Component {
                   </div>
                   <div className="text-center">
                     <MDBBtn   onClick = {() => {
-
                       const name = this.state.name;
-                 
-                     const password = this.state.password;
-
-
+                      const password = this.state.password;
                       const User = {password:password,name:name}              
                          loginUser(User)}}>Login</MDBBtn>
                   </div>
@@ -70,8 +67,9 @@ class Login extends Component {
               </MDBCol>
             </MDBRow>
           </MDBContainer>
+          </div>
+     
         )
     }
 }
- 
 export default  Login;

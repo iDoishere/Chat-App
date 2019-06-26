@@ -4,7 +4,6 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } 
 
  class Register extends Component {
   name = React.createRef();
- 
   pass = React.createRef();
   rePass = React.createRef();
     render() {
@@ -51,10 +50,8 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } 
                   />
                 </div>
                 <div className="text-center py-4 mt-3">
-                <MDBBtn onClick={ ()=> {
-                
-                let name = this.name.current.state.innerValue;
-             
+                <MDBBtn onClick={ ()=> {            
+                let name = this.name.current.state.innerValue;       
                 let pass = this.pass.current.state.innerValue;
                 let rePass =this.rePass.current.state.innerValue;
                 const obj = {name :name ,pass:pass,rePass:rePass}
