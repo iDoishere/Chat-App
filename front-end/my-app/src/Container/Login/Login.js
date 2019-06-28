@@ -3,7 +3,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn,MDBIcon,MDBCardHeader } 
 import './Login.css'
 import {LOGIN} from '../../Events'
 import socketIOClient from 'socket.io-client';
-
+import LightBox from '../../Components/LightBox/LightBox'
 import {PostDataToMongo,getDataFromMongo} from '../MainApp/PostData'
  
 class Login extends Component {
@@ -13,22 +13,35 @@ class Login extends Component {
         this.state = {     
           password:"",
           name:"",
-          ifUserLoggedIn:false
-       
+          ifUserLoggedIn:false,
+          banner : {
+             isDisplayed: false, msgToUser: "", color: ''   
+          }
+          
         };
       }
   
-  
-
+   
+    
          getPass = (event)  => {
             this.setState({password:event.target.value})
          }
          getName = (event)  => {
           this.setState({name:event.target.value})
           }
+          
 
 
-    render() {
+          showBanner = (msg,color) => {
+            const banner = { isDisplayed: true, msg, color};
+            this.setState({ banner });
+            this.bannerTimeOut = setTimeout(() => {
+                const banner = { isDisplayed: false, msg: "", color: null };
+                this.setState({ banner })
+            }, 3000);
+        }
+    render() { 
+     
         const {
           loginUser
         } = this.props ;       
@@ -69,6 +82,14 @@ class Login extends Component {
               </MDBCol>
             </MDBRow>
           </MDBContainer>
+        {/* {
+          
+          this.state.banner.isDisplayed ?  <LightBox
+          
+          info={this.state.banner}
+          /> : ''
+        }
+          */}
           </div>
      
         )

@@ -1,0 +1,18 @@
+.banner{
+    padding: 1%;
+    width: 30%;
+    margin: 2% auto;
+    border-radius: 7px;
+    text-align: center; 
+    color: white;
+    -webkit-animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.warning{
+    background-color: rgba(212, 50, 50, 0.753);
+}
+
+.success{
+    background-color: rgba(38, 170, 38, 0.76);
+}

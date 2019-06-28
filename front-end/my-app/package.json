@@ -11,8 +11,10 @@
     "react": "^16.8.6",
     "react-chat-ui": "^0.3.2",
     "react-dom": "^16.8.6",
+    "react-popupbox": "^2.0.8",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "reactjs-popup": "^1.4.1",
     "reactstrap": "^8.0.0",
     "socket.io-client": "^2.2.0"
   },

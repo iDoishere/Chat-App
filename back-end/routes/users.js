@@ -23,16 +23,24 @@ router.post('/login',  basicAuth({ authorizer}) , function (req, res, next) {
 router.post('/register',async function(req, res, next) {   
   const currentObj = req.body;
   const currentUsers =  await myService.getAll('users')
+  
+  if(currentObj.name === '' ||currentObj.pass === '' ||currentObj.rePass === '' ){
+    res.send({info:'misssing inputs'}) 
+    return;
+  }
  
-  if(!checkMissingText(currentObj)){
-    res.send({"auth":false,info:'missing text or pass incorrect'}) 
-    return;   // to avoid res handle eroor
- }
-//  if(!validateEmail(currentObj.email)){
-//    res.send({"auth":false ,info:'Check your email'}) 
-//    return;
-//  }  
- if(checkUserExits(currentUsers,currentObj)){
+  if(currentObj.pass.length < 8  || currentObj.rePass.length < 8){
+    res.send({"auth":false,info:'Password must be 8 digits'}) 
+    return;
+  }
+
+  if(currentObj.pass !== currentObj.rePass){
+    res.send({"auth":false,info:'Password doesnt match'}) 
+    return;
+  }
+
+
+ if(!checkUserExits(currentUsers,currentObj)){
    res.send({"auth":false,info:'user exits'}) 
    return;
  }
@@ -40,7 +48,7 @@ router.post('/register',async function(req, res, next) {
    currentObj.pass = md5(currentObj.pass);
    currentObj.rePass = md5(currentObj.rePass);
    const result = await myService.insertOne(currentObj, 'users')
-   res.send({"auth":true}) 
+   res.send({"auth":true,info:'Youre In'}) 
    return;
  }
 });
@@ -48,29 +56,12 @@ function checkUserExits(currentUsers,currentObj){
   let ifTrue=false;
  for (let user of currentUsers) { 
  if(user.name != currentObj.name){
-   ifTrue = false;
-  }  else{
    ifTrue = true;
+  }  else{
+  return false;
   }
  }
  return ifTrue;
 }
-function checkMissingText(currentObj){
- if(currentObj.name === '' ||currentObj.pass === '' ||currentObj.rePass === '' ){
-   return false;
-}
-if(currentObj.pass.length < 8  || currentObj.rePass.length < 8){
- return false;
-}
-if(currentObj.pass !== currentObj.rePass){
- return false;
-}
-return true;
-}
-function validateEmail(email) {
-  
- var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
- return answer= re.test(String(email).toLowerCase()); 
-  
-}
+ 
 module.exports = router;

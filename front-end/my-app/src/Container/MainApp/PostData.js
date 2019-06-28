@@ -9,7 +9,7 @@ return   fetch(url , {
     'Content-Type': 'application/json'
   }
 }).then(res => res.json())
-  .then(response => response)
+  .then(response =>  response )
   
 }
 

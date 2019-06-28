@@ -1,19 +1,14 @@
 
 import React, { Component } from 'react'
-import ShowText from '../../Components/ShowText/ShowText'
-import Input from '../../Components/Input/Input'
 import socketIOClient from 'socket.io-client';
 import { MSG } from '../../Events'
 import { Chat } from '@progress/kendo-react-conversational-ui';
 import "./Chat.css"
-import { Container, Row, Col } from 'reactstrap';
-
-let i =0;
+import {   Row, Col } from 'reactstrap';
+ 
 const endpoint = 'http://localhost:3001';
 class Chat1 extends Component {
  
- 
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -33,29 +28,33 @@ class Chat1 extends Component {
    const socket = socketIOClient(endpoint);
   
 
+   //push user to array connected users.
    socket     
    .emit('setToSocketOnLiNE', {user: this.state.userName})
 
-  //  socket.on("allmsg", data => {
-  //   this.setState({datafromMongo:data})
+   //send to the socket a req then respone will be all users
+   socket     
+   .emit('getallusers')
+
+
+// get all users from socket and display them
+   .on('sendallusers', onlineUsersFromSoCKET => {
+    this.setState({onlineUsers: onlineUsersFromSoCKET});
+   });
+
+}
  
-  // }  );
-  //  const CurrentMsg = await getDataFromMongo(this.serverUrl + "/messages");
-  //  this.setState({ datafromMongo: CurrentMsg })
-  }
 
-  // when user join to chat
-
+  //init socket and save it to setstate!
   initSocket = async (props) => { 
  
     const socket = socketIOClient(endpoint);
     this.setState({ socket: socket  })
-
-    socket.on("output", data => {   // listen to socket message
-      console.log(data)
+// listen to socket message coming from back-end!
+    socket.on("output", data => {   
           const arr = [...this.state.messages];
           
-      let Message=    {
+      let Message =  {
             author:  data.author,
             timestamp: new Date(),
             text: data.text,      
@@ -63,16 +62,19 @@ class Chat1 extends Component {
           arr.push(Message)
           this.setState({messages:arr})
     });
-
-
     socket
     .on('onlineConnect', onlineUsersFromSoCKET => {
         this.setState({onlineUsers: onlineUsersFromSoCKET});
     });
- 
- 
-  }
 
+   // if user log out the user will be remove from list in node.
+    socket
+    .on('filter', filter => {
+      console.log(filter )
+        this.setState({onlineUsers: filter});
+    });
+  }
+//user pressed on send message!
   addNewMessage = (event) => {
         
     let botResponce = Object.assign({}, event.message);
@@ -80,7 +82,7 @@ class Chat1 extends Component {
     this.sendMessageToSocket(botResponce)
 };
 
-
+  // send message value to socket!
 sendMessageToSocket = (text) => {
 
     this.state.socket
@@ -96,7 +98,7 @@ sendMessageToSocket = (text) => {
        return (
          <div>    
          <li className="nameList"  key={index}>
-           <h4>{user.username}</h4>  
+           <h4>{user}</h4>  
          </li>
          </div>
    
@@ -108,6 +110,7 @@ sendMessageToSocket = (text) => {
  
     return (
       <div>
+      
         <div>
         <Row>
           <Col sm={{ size: 'auto', offset: 1 }}>
@@ -122,19 +125,14 @@ sendMessageToSocket = (text) => {
           </Col>
           <Col sm={{ size: 'auto', offset: 1 }}>        
           <Chat  
-                    messages={this.state.messages}      
-                    onMessageSend={this.addNewMessage}
-                    placeholder={"Type a message..."}
-                    width={600}>
-                      
+                messages={this.state.messages}      
+                onMessageSend={this.addNewMessage}
+                placeholder={"Type a message..."}
+                width={600}>                
                 </Chat>
           </Col>
-        </Row>
-        {/* <ShowText   allMassges={this.state.messages} />   */}
-        {/* <Input clicked={ this.sendMessage}    
-        /> */}       
-        </div>
-      {/* <ShowText  messages = {this.state.messages}/> */}
+        </Row>    
+        </div>   
       </div>
     )
   }

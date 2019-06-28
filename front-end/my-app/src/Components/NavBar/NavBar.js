@@ -17,7 +17,8 @@ class NavBar extends Component {
 
         this.toggle = this.toggle.bind(this);
         this.state = {
-          isOpen: false
+          isOpen: false,
+          userName: localStorage.getItem("userdetails"),
         };
       }
       toggle() {
@@ -35,10 +36,11 @@ class NavBar extends Component {
       const linkName =  ifUserLoggedIn ? "Logout" : "Login";
         return (
             <div>
-        
+           
             <Navbar color="light" light expand="md">
-             <NavbarBrand  >  <p className="a11">Chat App</p>
+             <NavbarBrand >  <p className="a11">Chat App</p>
              </NavbarBrand>
+           
              <NavbarToggler onClick={this.toggle} />
              <Collapse isOpen={this.state.isOpen} navbar>
                <Nav className="ml-auto" navbar>
