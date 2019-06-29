@@ -3,7 +3,7 @@ var router = express.Router();
 const app = express();
  
 //socket init
-const port_1 = 3001;
+const port_1 = 8080;
 const server = app.listen(port_1, () => console.log(`listening on port ${port_1}!`))
 const io = require('socket.io')(server) ;
  
@@ -28,7 +28,6 @@ socket.on('getallusers' , function(){
 
 //user log out , remove user from list
 socket.on('logout', function(data){
-
   var indexToRemove = onlineUsers.indexOf(data.user);
   if (indexToRemove > -1) {
     onlineUsers.splice(indexToRemove, 1);

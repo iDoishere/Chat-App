@@ -11,15 +11,15 @@ router.use(async(req,res,next)=> {
     currentUsers =  await myService.getAll('users')  
   next()
 })
-
+// check user login action
 function  authorizer (name, password) { 
   return  currentUsers.some(user => user.name === name && user.pass === md5(password))   
 }
-
+// user press login and basic auth validation
 router.post('/login',  basicAuth({ authorizer}) , function (req, res, next) { 
   res.send({ autorized:true});
 });
-
+// user pressed register 
 router.post('/register',async function(req, res, next) {   
   const currentObj = req.body;
   const currentUsers =  await myService.getAll('users')
