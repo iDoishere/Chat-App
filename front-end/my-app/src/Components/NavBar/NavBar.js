@@ -1,66 +1,61 @@
- 
+
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Redirect,Switch,Link  } from "react-router-dom";
- import './NavBar.css'
+import { Link } from "react-router-dom";
+import './NavBar.css'
+import {Collapse,Navbar,NavbarToggler,NavbarBrand, Nav,NavItem,} from 'reactstrap';
+import { MDBIcon } from 'mdbreact';
 
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem
-  } from 'reactstrap';
+
+
 class NavBar extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false,
+    };
+  }
 
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-          isOpen: false,
-          userName: localStorage.getItem("userdetails"),
-        };
-      }
-      toggle() {
-        this.setState({
-          isOpen: !this.state.isOpen
-        });
-      }
-    render() {
-      const {
-        clickedRegister
-        ,ifUserLoggedIn
-        ,userLoggedOut
-      } = this.props;
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
 
-      const linkName =  ifUserLoggedIn ? "Logout" : "Login";
-        return (
-            <div>
-           
-            <Navbar color="light" light expand="md">
-             <NavbarBrand >  <p className="a11">Chat App</p>
-             </NavbarBrand>
-           
-             <NavbarToggler onClick={this.toggle} />
-             <Collapse isOpen={this.state.isOpen} navbar>
-               <Nav className="ml-auto" navbar>
-                 <div className="all">
-                   <div className="item1">
-                     <NavItem>
-                     <Link to="/" onClick = {userLoggedOut}>{linkName}</Link>
-                     </NavItem>
-                   </div>
-                   <div className="item2">
-                     <NavItem>
-                     <Link to="/Register/">Register</Link>
-                     </NavItem>
-                   </div>
-                 </div>
-               </Nav>
-             </Collapse>
-           </Navbar>   
-            </div>
-        )
-    }
+  render() {
+    const { 
+      ifUserLoggedIn
+      , userLoggedOut,   
+    } = this.props;
+
+    const linkName = ifUserLoggedIn ? "Logout" : "Login";
+      
+    return (
+      <div>
+      <Navbar color="light" light expand="md">
+          <NavbarBrand href="/">Chat App</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+       <div className="allItems">
+            <NavItem> 
+               <Link     to="/" onClick={userLoggedOut}>  
+               <MDBIcon icon="arrow-circle-right mdb-gallery-view-icon" />
+               {linkName}</Link>       
+           </NavItem>
+              <NavItem>   
+                  <Link to="/Register/">
+                  <MDBIcon icon="child mdb-gallery-view-icon" />
+                    Register</Link>    
+              </NavItem>
+             </div>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    )
+  }
 }
-export default  NavBar;
+export default NavBar;
+
+

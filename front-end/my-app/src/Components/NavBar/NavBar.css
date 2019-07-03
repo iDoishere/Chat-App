@@ -1,7 +1,6 @@
- .all{
-     display: flex;
- }
- h3{
-     display: flex;
-     justify-content: center;
- }
+ 
+.allItems{
+  display: flex;
+flex-direction: column
+}
+

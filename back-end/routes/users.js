@@ -5,18 +5,23 @@ const basicAuth = require('express-basic-auth');
 var md5 = require('md5');
 let currentUsers=null;
 
-router.use(async(req,res,next)=> {
-  myService = new dbService();
-    await myService.initDB()
-    currentUsers =  await myService.getAll('users')  
-  next()
-})
+ 
+ let myService = new dbService();
+      myService.initDB()
+   
+ 
+      router.use('/', async (req, res, next) => {
+        currentUsers = await myService.getAll("users");
+        next();
+      })
+      
 // check user login action
 function  authorizer (name, password) { 
   return  currentUsers.some(user => user.name === name && user.pass === md5(password))   
 }
 // user press login and basic auth validation
 router.post('/login',  basicAuth({ authorizer}) , function (req, res, next) { 
+  
   res.send({ autorized:true});
 });
 // user pressed register 

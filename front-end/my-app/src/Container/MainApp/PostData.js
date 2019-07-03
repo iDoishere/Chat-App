@@ -1,7 +1,5 @@
 
-
 export async function PostDataToMongo(mainInfo,url){
- 
 return   fetch(url , {
   method: 'POST', 
   body: JSON.stringify(mainInfo),  
@@ -10,14 +8,11 @@ return   fetch(url , {
   }
 }).then(res => res.json())
   .then(response =>  response )
-  
+
 }
 
  
-
 export async function getDataFromMongo(user,url){
- 
-
   const auth = `Basic ${ btoa(`${user.email}:${user.password}`)}`;
 
   fetch(url, {
@@ -32,6 +27,5 @@ export async function getDataFromMongo(user,url){
         }
     })
     .catch(err => console.log('No Authrization'));
-
 }
  
