@@ -10,8 +10,8 @@ import ModalUsers from '../../Components/ModalUsers/ModalUsers';
  
  
 class Chat1 extends Component {
-  // endpoint   = 'http://localhost:8080';
-    endpoint = window.location.origin;//socket
+    endpoint   = 'http://localhost:8080';
+   // endpoint = window.location.origin;//socket
   constructor(props) {
     super(props);
     this.state = {
@@ -48,53 +48,34 @@ class Chat1 extends Component {
       text: data.text,
      };
      arr.push(Message)
-     console.log( this.state.messages)
+    
     this.setState({ messages: arr })
+  });
+
+  this.socket
+  .on('get users', data => {  
+    this.setState({ onlineUsers: data  });
   });
 }
 
-
-
-
  joinChat(){
-
   this.socket
     .emit('new user',   this.state.userName )
-
-  this.socket
-  .on('get users', data => {
-    
-    this.setState({ onlineUsers: data  });
-  });
 
 }
   //user pressed on send message!
   addNewMessage = (event) => {
 
     let obj = Object.assign({}, event.message);
-    console.log(obj)
-    obj.author = this.user
-     
+    obj.author = this.user   
     this.socket
     .emit('send message',
     obj 
     );
-
- 
   };
 
-  // send message value to socket!
-  sendMessageToSocket = (obj) => {
-    console.log(obj)
- 
-
-}
-
-// componentWillUnmount(){
-//   this.socket.close();
-// }
   render() {
-    console.log(this.state.messages  )
+ 
     const {
       openModal,
       toggle,

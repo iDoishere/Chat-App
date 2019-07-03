@@ -54,13 +54,10 @@ class MainApp extends Component {
   //user logs out
   userLoggedOut =  () => {
   
-   
     this.state.socket
     .emit('log out', { user: this.state.name })
- 
     localStorage.removeItem("userdetails");
     localStorage.removeItem("ifOnline");
-
     this.setState({ ifUserLoggedIn: false, name: '' });
   }
 
