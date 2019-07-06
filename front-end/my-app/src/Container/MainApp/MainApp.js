@@ -6,11 +6,13 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Register from '../Register/Register'
 import NavBar from '../../Components/NavBar/NavBar'
 import socketIOClient from 'socket.io-client';
+import { func } from 'prop-types';
 
 class MainApp extends Component {
 
-  endpoint = 'http://localhost:8080';//socket
-
+ // endpoint = 'http://localhost:8080';//socket
+  
+  endpoint = window.location.origin;  //socket
   constructor(props) {
     super(props)
     this.state = {
@@ -21,43 +23,49 @@ class MainApp extends Component {
       // display warning for users
       box: {
         show: false, msgToUser: ""
-      }
+      },
+      socket:'',
+      numOfUers:0
     };
     this.toggle = this.toggle.bind(this); // for modal 
   }
 
 
   componentDidMount(){
-    const socket = socketIOClient(this.endpoint);
+   const socket = socketIOClient(this.endpoint);
+   socket
+   .on('get users', data => {  
+     this.setState({ numOfUers: data.length  });
+   });
+   this.setState({socket:socket})
 
-    this.setState({socket:socket})
   }
-
-  // bind the function 
   toggle() {
     this.setState({ modal: false })
   }
-  // open the function
-  openModalBtn = () => {
-     
+ 
+  openModalBtn = () => { 
     this.setState({ modal: true })
   }
-  //function from login, exucte after login authorization.
+
+
   userLoggedIn = (name) => {
     let ifOnline = true;
     localStorage.setItem('userdetails', name);
     localStorage.setItem('ifOnline', ifOnline);
-    this.setState({ ifUserLoggedIn: true, name: name })
+    this.setState({ ifUserLoggedIn: true, name: name,numOfUers:this.state.numOfUers++ })
 
   }
 
-  //user logs out
+
   userLoggedOut =  () => {
-  
+ 
+   
     this.state.socket
     .emit('log out', { user: this.state.name })
     localStorage.removeItem("userdetails");
     localStorage.removeItem("ifOnline");
+
     this.setState({ ifUserLoggedIn: false, name: '' });
   }
 
@@ -65,11 +73,21 @@ class MainApp extends Component {
     return (
       <div>
         <Router>
-          <NavBar ifUserLoggedIn={this.state.ifUserLoggedIn} userLoggedOut={this.userLoggedOut}  />
+          <NavBar
+           ifUserLoggedIn={this.state.ifUserLoggedIn}
+           userLoggedOut={this.userLoggedOut}
+           openModalBtn={this.openModalBtn}
+           usersLength={this.state.numOfUers}
+             />
           <Route path="/Register/" exact render={() => <Register
-            clickedRegister={this.clickedRegister} allinfo={this.state.box} />} />
+            clickedRegister={this.clickedRegister}
+             allinfo={this.state.box}
+              />} />
 
-          <Route path="/Chat/" exact render={() => <Chat openModal={this.state.modal}  openModalBtn={this.openModalBtn} toggle={() => this.toggle()} />} />
+          <Route path="/Chat/" exact render={() => <Chat  
+           displayLength={this.displayLength}
+           openModal={this.state.modal}
+            toggle={() => this.toggle()} />} />
 
           <Route path="/" exact render={() => (
             this.state.ifUserLoggedIn ? (<Redirect to='/Chat/' />) :

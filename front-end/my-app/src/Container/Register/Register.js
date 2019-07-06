@@ -3,10 +3,10 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } 
 import LightBox from '../../Components/LightBox/LightBox'
 import { PostDataToMongo } from '../../Container/MainApp/PostData'
 import  * as Events   from '../../Events'
-
+import './Register.css'
  class Register extends Component {
  serverUrl   = window.location.origin;
- // serverUrl   = 'http://localhost:8080';
+// serverUrl   = 'http://localhost:8080';
   constructor(props) {
     super(props)
     this.state = {     
@@ -29,7 +29,7 @@ import  * as Events   from '../../Events'
         this.setState({ banner })
     }, 3000);
 }
-
+// user register
   clickedRegister = async (obj) => {
   
     const url = this.serverUrl + "/users/register";
@@ -52,21 +52,22 @@ import  * as Events   from '../../Events'
       this.displayLightBox(resultRegsiter.info,'1')
     }
   }
+
   componentWillUnmount() {
     clearTimeout(this.bannerTimeOut);
 }
+
+
+
     render() {
         return (
-            <div>
-      <MDBContainer>
-      <MDBRow>
-        <MDBCol  >
-          <MDBCard>
+            <div className="divRegister">
+          <MDBCard className="cardRegsiter">
             <MDBCardBody>
               <form>
+                <p className="h4 text-center py-4">Sign up</p>
                 <div className="grey-text">
                   <MDBInput
-                   ref={this.name}
                     label="Your name"
                     icon="user"
                     group
@@ -75,20 +76,20 @@ import  * as Events   from '../../Events'
                     error="wrong"
                     success="right"
                   />
-           
                   <MDBInput
-                         ref={this.pass}
-                    label="Confirm your pass"
-                    icon="exclamation-triangle"
+                     ref={this.pass}
+                      label="Your password"
+                    icon="envelope"
                     group
-                    type="text"
+                    type="email"
                     validate
                     error="wrong"
                     success="right"
                   />
                   <MDBInput
-                    ref={this.rePass}
-                    label="Your password"
+                   ref={this.rePass}
+                 
+                    label="Confirm Your password"
                     icon="lock"
                     group
                     type="password"
@@ -113,9 +114,6 @@ import  * as Events   from '../../Events'
               </form>
             </MDBCardBody>
           </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
     <LightBox allinfo={this.state.banner} />
             </div>
         )

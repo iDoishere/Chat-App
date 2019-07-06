@@ -16,39 +16,47 @@ server.listen(port);
 
 let onlineUsers = [];
 let connections = [];
-
+let numOfusers=0;
 
 io.on("connection", function (socket) {
   connections.push(socket);
   socket.on('new user', function (name, callback) {
+    console.log(name)
     if (!onlineUsers.includes(name)) {
       socket.username = name;
       onlineUsers.push(socket.username);
+      numOfusers++;
       updateUserName() // display to all users online\offline
     }
   });
 
-  socket.on('log out', function (data) {
-    var indexToRemove = onlineUsers.indexOf(data.user);
-    if (indexToRemove > -1) {
-      onlineUsers.splice(indexToRemove, 1);
-    }
-    io.sockets.emit('get users', onlineUsers);
-  })
-
-  socket.on('disconnect', function (data) {
-    console.log('disconnected')
-    // onlineUsers.splice(onlineUsers.indexOf(socket.username), 1);
-    // updateUserName();
-    connections.splice(connections.indexOf(socket), 1)
-  });
+  
 
   socket.on('send message', function (data) {
     io.sockets.emit('new message',  data  )
   })
 
+  socket.on('length users', function(num){  
+    console.log(num)
+    io.sockets.emit('get user length',num)
+    })
+
+    socket.on('log out', function (data) {
+      var indexToRemove = onlineUsers.indexOf(data.user);
+      if (indexToRemove > -1) {
+        onlineUsers.splice(indexToRemove, 1);
+      }
+      io.sockets.emit('get users',onlineUsers);
+    })
+  
+    socket.on('disconnect', function () {
+      console.log('disconnected')
+      connections.splice(connections.indexOf(socket), 1)
+    });
+
+
   function updateUserName() {
-    io.sockets.emit('get users', onlineUsers)
+    io.sockets.emit('get users',onlineUsers )
   }
 });
 
