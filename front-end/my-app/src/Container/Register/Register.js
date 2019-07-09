@@ -5,8 +5,8 @@ import { PostDataToMongo } from '../../Container/MainApp/PostData'
 import  * as Events   from '../../Events'
 import './Register.css'
  class Register extends Component {
- serverUrl   = window.location.origin;
-// serverUrl   = 'http://localhost:8080';
+  serverUrl   = window.location.origin;
+//  serverUrl   = 'http://localhost:8080';
   constructor(props) {
     super(props)
     this.state = {     
@@ -57,17 +57,17 @@ import './Register.css'
     clearTimeout(this.bannerTimeOut);
 }
 
-
-
     render() {
         return (
-            <div className="divRegister">
-          <MDBCard className="cardRegsiter">
+            <div >
+              <div className="divRegister">
+              <MDBCard className="cardRegsiter">
             <MDBCardBody>
               <form>
                 <p className="h4 text-center py-4">Sign up</p>
                 <div className="grey-text">
                   <MDBInput
+                       ref={this.name}
                     label="Your name"
                     icon="user"
                     group
@@ -114,7 +114,10 @@ import './Register.css'
               </form>
             </MDBCardBody>
           </MDBCard>
-    <LightBox allinfo={this.state.banner} />
+              </div>
+
+
+      <LightBox allinfo={this.state.banner} />
             </div>
         )
     }

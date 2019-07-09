@@ -5,7 +5,7 @@ import LightBox from '../../Components/LightBox/LightBox'
 
 class Login extends Component {
     serverUrl   = window.location.origin;
- // serverUrl = 'http://localhost:8080';
+ //serverUrl = 'http://localhost:8080';
   constructor(props) {
     super(props)
     this.state = {

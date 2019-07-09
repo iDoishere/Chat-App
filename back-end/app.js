@@ -6,12 +6,11 @@ const logger = require('morgan');
 const cors = require('cors')
 
 var port =  process.env.PORT || '8080' ;
-
+// connet to express and init the socket
 http = require('http');
 var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-
 server.listen(port);
 
 let onlineUsers = [];
@@ -31,7 +30,7 @@ io.on("connection", function (socket) {
   });
 
   
-
+  //user send messages real time
   socket.on('send message', function (data) {
     io.sockets.emit('new message',  data  )
   })
@@ -59,19 +58,12 @@ io.on("connection", function (socket) {
     io.sockets.emit('get users',onlineUsers )
   }
 });
-
- 
 const usersRouter = require('./routes/users');
- 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.use(cors());
- 
 app.use('/users', usersRouter);
-
 module.exports = app;

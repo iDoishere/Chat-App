@@ -8,7 +8,7 @@ import ModalUsers from '../../Components/ModalUsers/ModalUsers';
 
 class Chat1 extends Component {
     // endpoint   = 'http://localhost:8080';
-      endpoint = window.location.origin;  // heroku path
+     endpoint = window.location.origin;  // heroku path
   constructor(props) {
     super(props);
     this.state = {

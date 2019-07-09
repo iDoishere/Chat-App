@@ -10,9 +10,9 @@ import { func } from 'prop-types';
 
 class MainApp extends Component {
 
- // endpoint = 'http://localhost:8080';//socket
+  //endpoint = 'http://localhost:8080';//socket
   
-  endpoint = window.location.origin;  //socket
+   endpoint = window.location.origin;  //socket
   constructor(props) {
     super(props)
     this.state = {
@@ -48,7 +48,6 @@ class MainApp extends Component {
     this.setState({ modal: true })
   }
 
-
   userLoggedIn = (name) => {
     let ifOnline = true;
     localStorage.setItem('userdetails', name);
@@ -57,10 +56,7 @@ class MainApp extends Component {
 
   }
 
-
-  userLoggedOut =  () => {
- 
-   
+  userLoggedOut =  () => {  
     this.state.socket
     .emit('log out', { user: this.state.name })
     localStorage.removeItem("userdetails");
@@ -92,7 +88,6 @@ class MainApp extends Component {
           <Route path="/" exact render={() => (
             this.state.ifUserLoggedIn ? (<Redirect to='/Chat/' />) :
               (<Login userLoggedIn={this.userLoggedIn} />)
-
           )} />
         </Router>
       </div>

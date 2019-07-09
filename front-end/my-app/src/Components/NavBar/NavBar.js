@@ -21,7 +21,6 @@ class NavBar extends Component {
       isOpen: !this.state.isOpen
     });
   }
-
   render() {
     const { 
       ifUserLoggedIn,
@@ -29,9 +28,7 @@ class NavBar extends Component {
       openModalBtn,
       usersLength
     } = this.props;
-
-    const linkName = ifUserLoggedIn ? "Logout" : "Login";
-     
+    const linkName = ifUserLoggedIn ? "Logout" : "Login";   
     return (
       <div>
       <Navbar color="light" light expand="md">
@@ -42,9 +39,6 @@ class NavBar extends Component {
             <span>{usersLength} Onlinsse Users</span>
           </div>
         </div>:[]}  
-
-     
-      
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -58,9 +52,7 @@ class NavBar extends Component {
                   <Link to="/Register/">
                   <MDBIcon icon="child mdb-gallery-view-icon" />
                     Register</Link>    
-              </NavItem>
-              
-          
+              </NavItem> 
              </div>
             </Nav>
           </Collapse>
